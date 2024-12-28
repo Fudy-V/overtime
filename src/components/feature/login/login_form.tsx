@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { handleLoggedIn } from "./form_action";
 
 // ここでログイン→匿名認証(basic認証をパスしないと匿名認証ができない)
 export default function LoginForm() {
@@ -9,12 +10,23 @@ export default function LoginForm() {
   const [error, setError] = useState("");
 
   return (
-    <form className="space-y-4">
+    <form
+      className="space-y-4"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.currentTarget);
+
+        const res = await handleLoggedIn(formData);
+        setError(errorMessage);
+        setUsername("");
+        setPassword("");
+      }}
+    >
       {error && <p className="text-red-600 text-sm">{error}</p>}
 
       <div>
         <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-          ユーザー名
+          担当者
         </label>
         <input
           id="username"

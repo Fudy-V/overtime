@@ -6,14 +6,16 @@ export default async function Home() {
   // →ログイン成功した場合のみ匿名認証をパス
   // →id生成。
 
-  const user = await prisma.user.findFirst({
+  const user = await prisma.user.findUnique({
     where: {
-      name: "alice",
+      name: "ken",
     },
   });
-  if (!user) {
+  console.log(user);
+
+  if (user) {
+    return redirect("/admin");
+  } else {
     return redirect("/login");
   }
-
-  return <div className=""></div>;
 }
